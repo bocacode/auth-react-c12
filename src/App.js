@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import LoginForm from './components/LoginForm'
+import SignupForm from './components/SignupForm'
+import RecipeList from './components/RecipeList'
+import './App.css'
 
-function App() {
+export default function App() {
+
+  const [token, setToken] = useState()
+  const [alreadyUser, setAlreadyUser] = useState(false)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <main>
+      {!token ? 
+        <>
+          {!alreadyUser
+            ? <LoginForm setToken={setToken} />
+            : <SignupForm setToken={setToken} />
+          }
+          <a href="#" onClick={() => setAlreadyUser(!alreadyUser)}>{!alreadyUser ? 'New User' : 'Already User?'}</a>
+        </>
+        : <RecipeList token={token} />
+      }
 
-export default App;
+    </main>
+  )
+}
